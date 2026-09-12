@@ -19,7 +19,7 @@ FROM python:3.12-slim
 WORKDIR /app
 
 RUN apt-get update \
-    && apt-get install -y ffmpeg curl unzip \
+    && apt-get install -y ffmpeg curl unzip nodejs \
     && rm -rf /var/lib/apt/lists/*
 
 RUN curl -fsSL https://deno.land/install.sh | sh
@@ -37,4 +37,4 @@ COPY app.py .
 
 EXPOSE 8080
 
-CMD ["sh", "-c", "node /root/bgutil-ytdlp-pot-provider/server/build/main.js & gunicorn --bind 0.0.0.0:8080 app:app"]
+CMD ["sh", "-c", "node /root/bgutil-ytdlp-pot-provider/server/build/main.js & sleep 3 && gunicorn --timeout 120 --bind 0.0.0.0:8080 app:app"]
