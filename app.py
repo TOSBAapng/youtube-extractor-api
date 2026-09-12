@@ -101,13 +101,7 @@ def extract():
 
             "extractor_args": {
 
-                "youtube": {
-
-                    "player_client": [
-                        "mweb"
-                    ]
-
-                },
+                
 
                 "youtubepot-bgutilhttp": {
 
