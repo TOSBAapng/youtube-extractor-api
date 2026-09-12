@@ -20,25 +20,15 @@ def debug():
         version_result = subprocess.run(
             ["yt-dlp", "--version"],
             capture_output=True,
-            text=True
+            text=True,
+            timeout=10
         )
 
         deno_result = subprocess.run(
             ["deno", "--version"],
             capture_output=True,
-            text=True
-        )
-
-        ejs_result = subprocess.run(
-            [
-                "yt-dlp",
-                "--verbose",
-                "--simulate",
-                "https://www.youtube.com/watch?v=2SKZLVD8NyE"
-            ],
-            capture_output=True,
             text=True,
-            timeout=60
+            timeout=10
         )
 
         return jsonify({
@@ -47,14 +37,13 @@ def debug():
             "yt_dlp_error": version_result.stderr.strip(),
             "deno": deno_result.stdout.strip(),
             "deno_error": deno_result.stderr.strip(),
-            "yt_dlp_debug": ejs_result.stdout[-12000:],
-            "yt_dlp_debug_error": ejs_result.stderr[-12000:]
+            "message": "Temel sistem testleri başarılı. YouTube extraction testi /extract üzerinden yapılacak."
         })
 
     except subprocess.TimeoutExpired:
         return jsonify({
             "success": False,
-            "error": "yt-dlp debug işlemi 60 saniye içinde tamamlanmadı."
+            "error": "Sistem testi zaman aşımına uğradı."
         }), 500
 
     except Exception as e:
@@ -62,7 +51,6 @@ def debug():
             "success": False,
             "error": str(e)
         }), 500
-
 
 @app.route("/extract", methods=["POST"])
 def extract():
