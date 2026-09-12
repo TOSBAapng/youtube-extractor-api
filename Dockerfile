@@ -10,12 +10,12 @@ RUN curl -fsSL https://deno.land/install.sh | sh
 
 ENV PATH="/root/.deno/bin:${PATH}"
 
-RUN git clone --depth 1 https://github.com/Brainicism/bgutil-ytdlp-pot-provider.git /root/bgutil-ytdlp-pot-provider
+RUN git clone --depth 1 --branch 2.0.0 https://github.com/Brainicism/bgutil-ytdlp-pot-provider.git /root/bgutil-ytdlp-pot-provider
 
 WORKDIR /root/bgutil-ytdlp-pot-provider/server
 
-RUN npm install \
-    && npm run build
+RUN npm ci --no-audit --no-fund \
+    && npx tsc
 
 WORKDIR /app
 
