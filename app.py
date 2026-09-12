@@ -1,3 +1,4 @@
+```python
 from flask import Flask, request, jsonify
 import yt_dlp
 import os
@@ -52,6 +53,7 @@ def debug():
             "error": str(e)
         }), 500
 
+
 @app.route("/extract", methods=["POST"])
 def extract():
     try:
@@ -68,8 +70,20 @@ def extract():
             "quiet": True,
             "no_warnings": True,
             "noplaylist": True,
+
             "format": "best[ext=mp4]/best",
-            "skip_download": True
+
+            "skip_download": True,
+
+            "socket_timeout": 30,
+
+            "retries": 1,
+
+            "extractor_args": {
+                "youtubepot-bgutilhttp": {
+                    "base_url": "http://127.0.0.1:4416"
+                }
+            }
         }
 
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
@@ -101,3 +115,4 @@ if __name__ == "__main__":
         host="0.0.0.0",
         port=port
     )
+```
