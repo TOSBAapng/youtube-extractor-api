@@ -3,12 +3,21 @@ FROM python:3.12-slim
 WORKDIR /app
 
 RUN apt-get update \
-    && apt-get install -y ffmpeg curl unzip \
+    && apt-get install -y ffmpeg curl unzip git nodejs npm \
     && rm -rf /var/lib/apt/lists/*
 
 RUN curl -fsSL https://deno.land/install.sh | sh
 
 ENV PATH="/root/.deno/bin:${PATH}"
+
+RUN git clone --depth 1 https://github.com/Brainicism/bgutil-ytdlp-pot-provider.git /root/bgutil-ytdlp-pot-provider
+
+WORKDIR /root/bgutil-ytdlp-pot-provider/server
+
+RUN npm install \
+    && npm run build
+
+WORKDIR /app
 
 COPY requirements.txt .
 
@@ -19,4 +28,4 @@ COPY app.py .
 
 EXPOSE 8080
 
-CMD ["gunicorn", "--bind", "0.0.0.0:8080", "app:app"]
+CMD ["sh", "-c", "node /root/bgutil-ytdlp-pot-provider/server/build/main.js & gunicorn --bind 0.0.0.0:8080 app:app"]
