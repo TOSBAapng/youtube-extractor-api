@@ -21,7 +21,7 @@ capture_output=True,
 text=True
 )
 
-```
+
     deno_result = subprocess.run(
         ["deno", "--version"],
         capture_output=True,
@@ -61,7 +61,7 @@ except Exception as e:
         "success": False,
         "error": str(e)
     }), 500
-```
+
 
 @app.route("/extract", methods=["POST"])
 def extract():
@@ -69,7 +69,7 @@ try:
 data = request.get_json(silent=True) or {}
 youtube_url = data.get("url")
 
-```
+
     if not youtube_url:
         return jsonify({
             "success": False,
@@ -104,7 +104,7 @@ except Exception as e:
         "success": False,
         "error": str(e)
     }), 500
-```
+
 
 if **name** == "**main**":
 port = int(os.environ.get("PORT", 8080))
