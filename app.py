@@ -3,7 +3,7 @@ import yt_dlp
 import os
 import subprocess
 
-app = Flask(**name**)
+app = Flask(_name_)
 
 @app.route("/", methods=["GET"])
 def home():
