@@ -51,7 +51,7 @@ def debug():
 
     try:
         response = urllib.request.urlopen(
-            "http://127.0.0.1:4416",
+            "http://127.0.0.1:4416/ping",
             timeout=5
         )
 
